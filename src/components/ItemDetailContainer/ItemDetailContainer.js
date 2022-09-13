@@ -1,45 +1,36 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import data from "../ItemListContainer/mock-data";
-import Item from "../Item/Item";
-
+import ItemDetail from "../ItemDetail/ItemDetail";
 
 export const ItemDetailContainer = () => {
-    const {productId}=useParams()
-    const [items, setItems] = useState ([]);
+  const { productId } = useParams();
+  const [items, setItems] = useState(null);
 
-    const getData = (id) =>{
+  const getData = (id) => {
+    return new Promise((resolve, reject) => {
+      const producto = data.find((item) => item.id === parseInt(id));
 
-        return new Promise((resolve, reject) => {
-            const producto= data.find(item=> item.id === parseInt(id));
-            
-            setTimeout(() => {
-                resolve(data)
-            }, 2000);
-        });
-    }
-   
+      setTimeout(() => {
+        resolve(data);
+      }, 2000);
+    });
+  };
 
-    useEffect(() => {
-        getData(productId).then((data) => {
-            console.log("producto",data)
-            setItems(data)
-        })
-        }, [productId])
+  useEffect(() => {
+    getData(productId).then((data) => {
+      setItems(data);
+    });
+  }, [productId, items]);
 
-        
   return (
-  
-  <div>
-      {items && <Item item={items}/> }
-  </div>
-    
- 
-    
-  )
-}
+    <div>
+      <ItemDetail producto={items} productId={productId} />
+    </div>
+  );
+};
 
-export default ItemDetailContainer
+export default ItemDetailContainer;
 
 
 

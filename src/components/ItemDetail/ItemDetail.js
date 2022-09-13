@@ -1,17 +1,23 @@
-import Item from "../Item/Item";
-import ItemCount from '../ItemCount/ItemCount'
+import { useEffect, useState } from "react";
 
+const ItemDetail = ({ producto, productId }) => {
+  const [obj, setObj] = useState(null);
+  useEffect(() => {
+    let prod;
+    if (producto) {
+      prod = producto?.filter((item) => item.id === Number(productId));
+      setObj(prod[0]);
+    }
+  }, [producto]);
 
-const ItemDetail = ({item}) => {
-console.log("hola", item)
   return (
-      <div>
-        <img src={image} alt={name}/>
-        <h1>{name}</h1>
-        <p>{description}</p>
-        <p>{price}</p>
-      </div>
+    <div>
+      <img src={obj?.image} alt="" />
+      <h1>{obj?.name}</h1>
+      <p>{obj?.description}</p>
+      <p>{obj?.price}</p>
+    </div>
   );
 };
 
-export default ItemDetail
+export default ItemDetail;
